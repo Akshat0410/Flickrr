@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -49,10 +50,10 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-//
+
         val data=datalist[position]
         holder.title.text=data.title
-        Glide.with(context).load(data.url_s).listener( object : RequestListener<Drawable> {
+        Glide.with(context).load(data.url_s).placeholder(R.drawable.placeholder).listener( object : RequestListener<Drawable> {
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                 holder.progress.visibility=View.VISIBLE
                 return false
@@ -63,7 +64,7 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
                 return false
 
             }
-        }).into(holder.image)
+        }).error(R.drawable.share).into(holder.image)
 
 
 
