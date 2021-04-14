@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/displaytext"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Welcome to Flickrr"
+        android:layout_height="50dp"
+        android:text="@string/welcome_to_flickrr"
         android:textColor="@color/white"
-        android:background="@color/black"
+        android:background="#C32746"
         android:textSize="20sp"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textAlignment="center"
-        android:gravity="center_horizontal"
-        android:layout_margin="10dp"
+        android:gravity="center_vertical"
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/galrecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/displaytext"
