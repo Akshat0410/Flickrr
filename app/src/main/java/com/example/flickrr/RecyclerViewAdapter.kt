@@ -74,7 +74,7 @@ class RecyclerViewAdapter(private val context: Context, data: List<Photo>) :
                 return false
 
             }
-        }).error(R.drawable.share).into(holder.image)
+        }).error(R.drawable.ic_baseline_error_24).into(holder.image)
 
 
 
