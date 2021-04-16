@@ -3,7 +3,6 @@ package com.example.flickrr
 
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
-
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
@@ -14,17 +13,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.example.flickrr.Model.Photo
 import com.bumptech.glide.request.target.Target
+import com.example.flickrr.Model.Photo
 import android.net.Uri as Uri1
 
-class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
+
+class RecyclerViewAdapter(private val context: Context, data: List<Photo>) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
 
@@ -37,8 +36,6 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
         var share: Button = itemView.findViewById(R.id.share)
         var download:Button = itemView.findViewById(R.id.download)
         var progress:ProgressBar = itemView.findViewById(R.id.prog)
-
-
     }
 
 
@@ -53,18 +50,32 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
 
         val data=datalist[position]
         holder.title.text=data.title
-        Glide.with(context).load(data.url_s).placeholder(R.drawable.placeholder).listener( object : RequestListener<Drawable> {
-            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                holder.progress.visibility=View.VISIBLE
+        Glide.with(context).load(data.url_s).placeholder(R.drawable.placeholder).listener(object :
+            RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                holder.progress.visibility = View.VISIBLE
                 return false
             }
-            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
 
-                holder.progress.visibility=View.GONE
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+
+                holder.progress.visibility = View.GONE
                 return false
 
             }
         }).error(R.drawable.share).into(holder.image)
+
 
 
 
@@ -85,7 +96,7 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
             val request=DownloadManager.Request(Uri1.parse(data.url_s)).
             setTitle(data.title).
             setDescription("Image Downloading").
-            setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS,data.title).
+            setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, data.title).
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).
             setAllowedOverMetered(true)
 
@@ -111,10 +122,6 @@ class RecyclerViewAdapter(private val context: Context,  data: List<Photo>) :
         val intents = Intent(ACTION_VIEW, uris)
         context.startActivity(intents)
     }
-
-
-
-
 
 
     override fun getItemCount(): Int {
