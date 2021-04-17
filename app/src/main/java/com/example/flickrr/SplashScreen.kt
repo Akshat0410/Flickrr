@@ -13,7 +13,7 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        progress=findViewById<ProgressBar>(R.id.progress)
+        progress=findViewById(R.id.progress)
         progress.visibility= View.VISIBLE
         Handler().postDelayed({
             progress.visibility=View.GONE
@@ -21,11 +21,5 @@ class SplashScreen : AppCompatActivity() {
             startActivity(Intent)
             finishAfterTransition()
         },3000)
-
-
-//
-
-
-
     }
 }

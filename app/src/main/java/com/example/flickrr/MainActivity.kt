@@ -6,10 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -35,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         drawerLayout=findViewById(R.id.drawer)
         appBarConfiguration= AppBarConfiguration(navController.graph,drawerLayout)
         navigationView.setupWithNavController(navController)
-
         setupActionBarWithNavController(navController,appBarConfiguration)
+
 
     }
 

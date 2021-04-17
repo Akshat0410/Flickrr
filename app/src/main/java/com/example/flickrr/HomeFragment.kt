@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,9 +19,9 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter:RecyclerViewAdapter
-    private lateinit var refresher: SwipeRefreshLayout
-
-
+//    private lateinit var refresher: SwipeRefreshLayout
+    private lateinit var input:EditText
+    private lateinit var inputext:String
      override fun onCreateView(
          inflater: LayoutInflater, container: ViewGroup?,
          savedInstanceState: Bundle?
@@ -33,24 +34,38 @@ class HomeFragment : Fragment() {
          val viewModelFactory=MainViewModelFactory(repository)
          viewModel=ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
          viewModel.getPost()
-         viewModel.MyResponse.observe(viewLifecycleOwner, { response ->
-             dataList = response.photos.photo
-             recyclerView.layoutManager = GridLayoutManager(context, 2)
+         viewModel.MyResponse.observe(viewLifecycleOwner,{response ->
+             dataList=response.photos.photo
+             recyclerView.layoutManager=GridLayoutManager(context,2)
              adapter = RecyclerViewAdapter(requireContext(), dataList)
              recyclerView.adapter = adapter
+
          })
 
-         refresher=binding.refresher
-         refresher.setOnRefreshListener{
-             onRefresh()
+         binding.search.setOnClickListener {
+
+               inputext=binding.input.text.toString()
+             viewModel.getPost2(inputext)
+             viewModel.MyResponse2.observe(viewLifecycleOwner, { response ->
+                 dataList = response.photos.photo
+                 recyclerView.layoutManager = GridLayoutManager(context, 2)
+                 adapter = RecyclerViewAdapter(requireContext(), dataList)
+                 recyclerView.adapter = adapter
+
+             })
          }
+
+//         refresher=binding.refresher
+//         refresher.setOnRefreshListener{
+//             onRefresh()
+//         }
 
          return binding.root
     }
 
-    private fun onRefresh() {
-        refresher.isRefreshing=false
-    }
+//    private fun onRefresh() {
+//        refresher.isRefreshing=false
+//    }
 
 
     override fun onDestroy() {
