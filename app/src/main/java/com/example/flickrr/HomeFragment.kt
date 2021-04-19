@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
          inflater: LayoutInflater, container: ViewGroup?,
          savedInstanceState: Bundle?
      ): View {
+         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Home Fragment"
          _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
          mainrecycler=binding.root.findViewById(R.id.galrecycler)
          mainrecycler.layoutManager=GridLayoutManager(context,2)

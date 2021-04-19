@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +24,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.flickrr.Model.Photo
 import com.example.flickrr.RecyclerViewNewAdapter.*
+import kotlin.coroutines.coroutineContext
 
 class RecyclerViewNewAdapter(context: Context) :PagingDataAdapter<Photo, MyViewHolder>(DiffUtilCallBack()){
 
-
     private var context=context
+
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(context, it) }
@@ -39,7 +41,6 @@ class RecyclerViewNewAdapter(context: Context) :PagingDataAdapter<Photo, MyViewH
     }
 
     class MyViewHolder(view : View) : RecyclerView.ViewHolder(view){
-
 
         var mydownloadId:Long=0
         var image:ImageView = itemView.findViewById(R.id.Image)
@@ -78,7 +79,7 @@ class RecyclerViewNewAdapter(context: Context) :PagingDataAdapter<Photo, MyViewH
 
             image.setOnClickListener {
                 Toast.makeText(context, "Item Number $position Clicked - ", Toast.LENGTH_SHORT).show()
-//                gotoUrl(data.url_s)
+                gotoUrl(context,data.url_s)
             }
 
             share.setOnClickListener {
@@ -102,11 +103,7 @@ class RecyclerViewNewAdapter(context: Context) :PagingDataAdapter<Photo, MyViewH
             }
 
             val br=object : BroadcastReceiver(){
-                override fun onReceive(p0: Context?, p1: Intent?) {
-//                val id= p1?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1)
-////                if(id==MydownloadId){}
-                }
-
+                override fun onReceive(p0: Context?, p1: Intent?) {}
             }
             context.registerReceiver(br, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
@@ -116,11 +113,12 @@ class RecyclerViewNewAdapter(context: Context) :PagingDataAdapter<Photo, MyViewH
 
         }
 
-//        private fun gotoUrl(urlS: String) {
-//            val uris = Uri1.parse(urlS)
-//            val intents = Intent(ACTION_VIEW, uris)
-//            context.startActivity(intents)
-//        }
+        private fun gotoUrl(context: Context,urlS: String) {
+            val uris = Uri.parse(urlS)
+            val intents = Intent(ACTION_VIEW, uris)
+            context.startActivity(intents)
+
+        }
     }
 
     class DiffUtilCallBack: DiffUtil.ItemCallback<Photo>() {
