@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navigationView: NavigationView
-   private lateinit var listener:NavController.OnDestinationChangedListener
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        supportActionBar?.hide()
@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration= AppBarConfiguration(navController.graph,drawerLayout)
         navigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController,appBarConfiguration)
+
+        navController.navigate(R.id.action_homeFragment_to_search2)
 
 
     }

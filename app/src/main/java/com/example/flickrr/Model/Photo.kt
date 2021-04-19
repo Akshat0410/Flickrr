@@ -2,7 +2,7 @@ package com.example.flickrr.Model
 
 data class Photo (
 
-//        val id: String,
+        val id: String,
 //        val owner: String,
 //        val secret: String,
 //        val server: String,

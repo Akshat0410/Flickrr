@@ -6,67 +6,46 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.flickrr.Model.Photo
 import com.example.flickrr.databinding.FragmentHomeBinding
 import com.example.flickrr.repository.Repository
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
+    private lateinit var dataList: List<Photo>
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MainViewModel
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var mainrecycler: RecyclerView
     private lateinit var adapter:RecyclerViewAdapter
+    private lateinit var recycleradapter : RecyclerViewNewAdapter
 //    private lateinit var refresher: SwipeRefreshLayout
     private lateinit var input:EditText
-    private lateinit var inputext:String
+
      override fun onCreateView(
          inflater: LayoutInflater, container: ViewGroup?,
          savedInstanceState: Bundle?
      ): View {
-
          _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-         var dataList:List<Photo>
-         recyclerView=binding.galrecycler
-         val repository=Repository()
+         mainrecycler=binding.root.findViewById(R.id.galrecycler)
+         mainrecycler.layoutManager=GridLayoutManager(context,2)
+         recycleradapter = RecyclerViewNewAdapter(requireContext())
+         mainrecycler.adapter = recycleradapter
+         val repository= Repository()
          val viewModelFactory=MainViewModelFactory(repository)
-         viewModel=ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-         viewModel.getPost()
-         viewModel.MyResponse.observe(viewLifecycleOwner,{response ->
-             dataList=response.photos.photo
-             recyclerView.layoutManager=GridLayoutManager(context,2)
-             adapter = RecyclerViewAdapter(requireContext(), dataList)
-             recyclerView.adapter = adapter
-
-         })
-
-         binding.search.setOnClickListener {
-
-               inputext=binding.input.text.toString()
-             viewModel.getPost2(inputext)
-             viewModel.MyResponse2.observe(viewLifecycleOwner, { response ->
-                 dataList = response.photos.photo
-                 recyclerView.layoutManager = GridLayoutManager(context, 2)
-                 adapter = RecyclerViewAdapter(requireContext(), dataList)
-                 recyclerView.adapter = adapter
-
-             })
+         viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+         viewModel.getDatafromApi()
+         viewModel.scope.launch {
+             viewModel.getDatafromApi().collectLatest {
+                 recycleradapter.submitData(it)
+             }
          }
-
-//         refresher=binding.refresher
-//         refresher.setOnRefreshListener{
-//             onRefresh()
-//         }
-
          return binding.root
     }
-
-//    private fun onRefresh() {
-//        refresher.isRefreshing=false
-//    }
-
 
     override fun onDestroy() {
         super.onDestroy()

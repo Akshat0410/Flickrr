@@ -1,16 +1,28 @@
 package com.example.flickrr.repository
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.paging.*
 import com.example.flickrr.Api.RetrofitInstance
+import com.example.flickrr.ItemDataource
 import com.example.flickrr.Model.MainModel
-import com.example.flickrr.Model.Photos
+import com.example.flickrr.Model.Photo
+import kotlinx.coroutines.flow.Flow
 
 class Repository {
 
-        suspend fun getPost(): MainModel {
-        return RetrofitInstance.api.getPost()
-    }
+       fun getdatawithsearch(text: String): Flow<PagingData<Photo>> {
+             return Pager(
+            config = PagingConfig(pageSize = 6),
+            pagingSourceFactory = { ItemDataource(RetrofitInstance.api,text) }
+             ).flow
 
-    suspend fun getPost2(text : String): MainModel{
-        return RetrofitInstance.api.getPost2(text)
+          }
+
+    fun getDatafromApi(): Flow<PagingData<Photo>> {
+        return Pager(
+                config = PagingConfig(pageSize = 6),
+                pagingSourceFactory = { ItemDataource(RetrofitInstance.api,"null") }
+        ).flow
     }
 }
