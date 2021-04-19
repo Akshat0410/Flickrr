@@ -8,13 +8,6 @@
     tools:context=".MainActivity"
     android:background="#FFFFFF">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationview"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/nav_drawer_menu"/>
-
     <fragment
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -25,5 +18,11 @@
         tools:layout_editor_absoluteX="178dp"
         tools:layout_editor_absoluteY="227dp" />
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_drawer_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

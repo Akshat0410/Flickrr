@@ -1,4 +1,4 @@
-package com.example.flickrr
+package com.example.flickrr.Views
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.ProgressBar
-import com.example.flickrr.R.id.progress
+import com.example.flickrr.MainActivity
+import com.example.flickrr.R
 
 class SplashScreen : AppCompatActivity() {
     private lateinit var progress:ProgressBar
@@ -17,7 +18,7 @@ class SplashScreen : AppCompatActivity() {
         progress.visibility= View.VISIBLE
         Handler().postDelayed({
             progress.visibility=View.GONE
-            val Intent = Intent(this,MainActivity::class.java)
+            val Intent = Intent(this, MainActivity::class.java)
             startActivity(Intent)
             finishAfterTransition()
         },3000)

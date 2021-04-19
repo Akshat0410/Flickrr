@@ -6,20 +6,13 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.flickrr.HomeFragment"
+        android:name="com.example.flickrr.Views.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_search2"
-            app:destination="@id/search2" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/search2"
-        android:name="com.example.flickrr.Search"
+        android:name="com.example.flickrr.Views.Search"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
-
-    <action
-        android:id="@+id/action_homeFragment_to_search2"
-        app:destination="@id/search2" />
 </navigation>

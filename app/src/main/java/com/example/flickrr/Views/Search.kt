@@ -1,35 +1,30 @@
-package com.example.flickrr
+package com.example.flickrr.Views
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.ConnectivityManager.NetworkCallback
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
-import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.LoadState
-import androidx.paging.LoadState.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flickrr.ViewModel.MainViewModel
+import com.example.flickrr.ViewModel.MainViewModelFactory
+import com.example.flickrr.R
+import com.example.flickrr.RecyclerViewNewAdapter
 import com.example.flickrr.databinding.FragmentSearchBinding
 import com.example.flickrr.repository.Repository
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
@@ -61,7 +56,7 @@ class Search() : Fragment() {
                searchrecycler=binding.root.findViewById(R.id.searchrecycler)
                recycleradapter = RecyclerViewNewAdapter(requireContext())
                val repository= Repository()
-               val viewModelFactory=MainViewModelFactory(repository)
+               val viewModelFactory= MainViewModelFactory(repository)
 
                viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
                 searchrecycler.layoutManager = GridLayoutManager(context, 2)
@@ -76,11 +71,14 @@ class Search() : Fragment() {
 
 
         fun debounceSearch(searchView: SearchView) {
+
             var prevQuery = ""
             val observableQueryText: Observable<String?> = Observable
                 .create(ObservableOnSubscribe<String?> { emitter ->
                     searchView.setOnQueryTextListener(object : OnQueryTextListener {
+
                         override fun onQueryTextSubmit(query: String): Boolean {
+                            progressbar.visibility = View.VISIBLE
                             if (query == prevQuery) return true
                             else prevQuery = query
 
@@ -133,6 +131,7 @@ class Search() : Fragment() {
             })
         }
 
+
         debounceSearch(searchView)
 
 
@@ -141,10 +140,9 @@ class Search() : Fragment() {
             binding.apply {
                 progressbar.isVisible = loadState.source.refresh is LoadState.Loading
                 reload.isVisible = loadState.source.refresh is LoadState.Error
-
-
-
+                progressbar.isVisible=loadState.append.endOfPaginationReached
                 reload.setOnClickListener{recycleradapter.refresh()}
+
             }
         }
 
@@ -157,7 +155,7 @@ class Search() : Fragment() {
             searchrecycler=binding.root.findViewById(R.id.searchrecycler)
              recycleradapter = RecyclerViewNewAdapter(requireContext())
             val repository= Repository()
-            val viewModelFactory=MainViewModelFactory(repository)
+            val viewModelFactory= MainViewModelFactory(repository)
             viewModel= ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
             searchrecycler.layoutManager = GridLayoutManager(context, 2)
             searchrecycler.adapter = recycleradapter
@@ -168,6 +166,7 @@ class Search() : Fragment() {
             }
 
         }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

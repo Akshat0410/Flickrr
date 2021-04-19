@@ -1,4 +1,4 @@
-package com.example.flickrr
+package com.example.flickrr.ViewModel
 
 import androidx.lifecycle.*
 import androidx.paging.PagingData
